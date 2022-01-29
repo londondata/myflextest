@@ -1,6 +1,6 @@
 import React from "react";
-import Post from "./components/Post";
-import Welcome from "./components/Welcome";
+import Post from "../Post";
+import Welcome from "../Welcome";
 
 const post = {
 	title: "Eff Off Zuck",
@@ -12,7 +12,12 @@ function Home(props) {
 	return (
 		<div>
 			<Welcome name={"Teri"} location={"San Francisco"} />
-			<Post title={post.title} author={post.author} body={post.body} />
+			<Post
+				title={post.title}
+				author={post.author}
+				body={post.body}
+				comments={post.comments}
+			/>
 		</div>
 	);
 }
