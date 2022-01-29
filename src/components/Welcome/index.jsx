@@ -1,3 +1,5 @@
+// Welcome component
+
 // bring in React from React
 import React from "react";
 
