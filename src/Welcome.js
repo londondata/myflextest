@@ -9,7 +9,7 @@ function Welcome(props) {
 		<div>
 			<h1>Welcome to MyFlexSpace, {props.name}!</h1>
 			<p>
-				You are located in<h3>{props.location}</h3>
+				You are located in <h3>{props.location}</h3>
 			</p>
 		</div>
 	);
