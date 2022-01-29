@@ -1,12 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Welcome from './Welcome';
+import Post from './Post';
 import reportWebVitals from './reportWebVitals';
+
+const post = {
+  title: "Eff Off Zuck",
+  author: "Miss London",
+  body: "I secretly recruited a group of superheroes to save the Internet",
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Welcome name={"Teri"} location={"San Francisco"}/>
+    <Post 
+			title={post.title} 
+			author={post.author} 
+			body={post.body} />
   </React.StrictMode>,
   document.getElementById('root')
 );
