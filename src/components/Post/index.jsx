@@ -1,5 +1,6 @@
 // Post component
 import React from "react";
+import Dopeness from "../Dopeness";
 
 function Post(props) {
 	return (
@@ -10,6 +11,9 @@ function Post(props) {
 			</p>
 			<div>
 				<p>{props.body}</p>
+			</div>
+			<div>
+				<Dopeness />
 			</div>
 		</div>
 	);
