@@ -4,6 +4,7 @@ export default function NavBar() {
     return(
         // <></> are placeholders!
         <>
+        
             <div>
                 <Link 
                     // you can style inline, but doesn't assign an 'isActive' class :( )
