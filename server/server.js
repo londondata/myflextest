@@ -6,9 +6,10 @@ const methodOverride = require("method-override");
 /* ==== Internal Modules ==== */
 const routes = require("./routes");
 require("./config/database")
+
 /* ==== Instanced Modules  ==== */
 const app = express();
-
+const path = require('path')
 /* ==== Configuration ==== */
 const config = require("@myflexspace/config");
 
@@ -17,9 +18,10 @@ const config = require("@myflexspace/config");
 app.use(express.urlencoded({ extended: true }));
 // method override middleware
 app.use(methodOverride("_method"));
-// serve public files
+
 //for deployment
 // app.use(express.static("../client/build"));
+
 // logger
 app.use((req, res, next) => {
 	console.log(req.url, req.method);
@@ -28,16 +30,14 @@ app.use((req, res, next) => {
 
 /* ====  Routes & Controllers  ==== */
 
-
-
 // Internal Routes
 // All of our routes will start with "/api", we're going to route them through index.js
 // app.use("/api", routes);
 
 //This is to catch anything that's trying to hit an api route that isn't made
-// app.all("/api/*", function (req, res, next) {
-// 	res.send("THIS IS NOT AN API ROUTE");
-// });
+app.all("/api/*", function (req, res, next) {
+	res.send("THIS IS NOT AN API ROUTE");
+});
 
 //THIS IS THE REACT FULL STACK MAGIC MIDDLEWARE
 // Anything that is NOT an api route will therefore be handled by React Router, which is set up right here. The API routes must hit first, order matters, then react via the React build directory.
@@ -47,8 +47,7 @@ and this middleware's job is to handover control to react
 */
 
 app.use((req, res, next) => {
-	console.log(req.headers);
-	res.sendFile("../client/build", "index.html");
+	res.sendFile('index.html', { root: path.join(__dirname, '../client/public') });;
 });
 /* ====  Server Listener  ==== */
 app.listen(config.PORT, () => {

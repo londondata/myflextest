@@ -13,16 +13,15 @@
 		"packages/*"
 	],
 	"scripts": {
-		"deploy-prep": "yarn --cwd client build && mv ./client/build ./server/build",
-		"start": "(cd client && npm start) && yarn --cwd server start",
+		"deploy": "yarn --cwd client build && mv ./client/build ./server/build",
+		"start": "concurrently \"npm run client\" \"npm run server\"",
+    "server": "cd server && nodemon server.js",
+    "client": "cd client && npm start",
 		"start-server-dev": "yarn --cwd server dev",
 		"start-client-dev": "yarn --cwd client start",
 		"dev": "concurrently --kill-others --handle-input -n client,server 'npm:start-client-dev' 'npm:start-server-dev'"
 	},
 	"devDependencies": {
 		"concurrently": "^6.5.1"
-	},
-	"dependencies": {
-		"config": "^3.3.7"
 	}
 }
