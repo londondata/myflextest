@@ -46,10 +46,14 @@ ANY REQUEST not covered by routes express makes -- will get piped to this middle
 and this middleware's job is to handover control to react
 */
 
+//For deployments
 app.use((req, res, next) => {
-	res.sendFile('index.html', { root: path.join(__dirname, '../client/public') });;
+  console.log(req.headers);
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
+
 /* ====  Server Listener  ==== */
+
 app.listen(config.PORT, () => {
 	console.log(`myflexspace is live at http://localhost:${config.PORT}`);
 });
