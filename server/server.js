@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 
 // Internal Routes
 // All of our routes will start with "/api", we're going to route them through index.js
-// app.use("/api", routes);
+app.use("/api", routes);
 
 //This is to catch anything that's trying to hit an api route that isn't made
 app.all("/api/*", function (req, res, next) {
