@@ -33,10 +33,10 @@ const deleteUsers = async () => {
     }
 }
 
-// seedUsers()
+seedUsers()
 // deleteUsers()
 
 
 module.exports = {
-    usersSeed: require("./users.json")
+    usersJSON: require("./users.json")
 }

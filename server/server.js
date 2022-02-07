@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
 //for deployment
-// app.use(express.static("../client/build"));
+app.use(express.static("../client/build"));
 
 // logger
 app.use((req, res, next) => {
