@@ -20,7 +20,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
 //for deployment
-app.use(express.static("../client/build"));
+// to serve static files and to serve the react build
+app.use(express.static(path.join("build")));
+app.use(express.static("public"));
 
 // logger
 app.use((req, res, next) => {

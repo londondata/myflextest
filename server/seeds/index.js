@@ -33,8 +33,8 @@ const deleteUsers = async () => {
     }
 }
 
-seedUsers()
-// deleteUsers()
+// seedUsers()
+deleteUsers()
 
 
 module.exports = {
