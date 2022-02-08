@@ -4,7 +4,6 @@ const db = require("../models");
 // Index - GET - Presentational (all of a resource)
 const index = (req, res) => {
     db.Post.find()
-        .populate("author")
         .exec((err, populatedPosts) => {
             return res.status(200).json({
                 message: "Success",
@@ -27,10 +26,7 @@ const show = (req, res) => {
 
 // Create - POST - Functional (Status code 201)
 const create = (req, res) => {
-    //author connected on post schema
-    req.body.author = mongoose.Types.ObjectId(req.body.author);
     db.Post.create(req.body, (err, savedPost) => {
-        savedPost.populate("author");
         console.log(savedPost, "SAVED POST IN CREATE POST");
         if (err) return console.log("Error in Posts#create:", err);
 
