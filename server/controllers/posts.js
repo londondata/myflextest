@@ -47,6 +47,7 @@ const update = (req, res) => {
             if (err) console.log("Error in Posts#update:", err);
 
             return res.status(202).json({
+                message: "Success",
                 data: updatedPost,
             });
         }
@@ -59,6 +60,7 @@ const destroy = (req, res) => {
         if (err) console.log("Error in Posts#destroy:", err);
 
         return res.status(200).json({
+            message:"Success",
             data: deletedPost,
         });
     });

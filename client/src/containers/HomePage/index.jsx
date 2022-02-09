@@ -11,6 +11,7 @@ const post = {
 	body: "I secretly recruited a group of superheroes to save the Internet",
 };
 
+
 export default function Home(props) {
 	return (
 		<div>
@@ -19,7 +20,7 @@ export default function Home(props) {
 			It also renders routes exclusively and not all at once */}
 			<Routes>
 				{/* renders UI when path matches URL. When dealing with parameter values (ex. /:id),  routes, use a trailing * in their path to indicate they match deeply (ex. `path="/*") would mean that the root takes preference over /:id for an exact match) Though since the v6 update, its way more intuitive! */}
-				<Route path=":id" element={<Homies />}>
+				<Route path="homies" element={<Homies />}>
 				</Route>
 				<Route path="/" element={<Welcome name={"Teri"} location={"San Francisco"} />}>
 				</Route>
