@@ -1,7 +1,30 @@
+import { useEffect, useState } from "react"
+import axios from 'axios'
+
+const backendAPI = "http://localhost:4000/api"
+
 export default function Homies() {
+
+    const [homies, setHomies] = useState([])
+
+    const fetchHomies = async () => {
+        await axios.get(`${backendAPI}/users`)
+        .then((res) => {
+            setHomies(res.data.data)
+        })
+    }
+    
+    useEffect(()=>{
+        fetchHomies()
+    }, [])
+    
+
+
     return(
         <div>
-            <h1> Hey Homie</h1>
+            {homies.map(user => {
+                return <h3>{user.firstName}</h3>
+            })}
         </div>
     )
 }

@@ -1,4 +1,9 @@
-require("dotenv").config();
+// require("dotenv").config();
+const path = require('path')
+console.log(require("dotenv").config({ path: '../.env' })
+//this thing is absolute bullshit it literally works inside of seeds/index.js without pathing, AND on the students myflexspace. what??? this is literally just flextape until i have time to figure this out?
+)
+const cors = require("cors")
 /* ==== External Modules ==== */
 const express = require("express");
 const methodOverride = require("method-override");
@@ -9,11 +14,11 @@ const routes = require("./routes");
 
 /* ==== Instanced Modules  ==== */
 const app = express();
-const path = require('path')
 /* ==== Configuration ==== */
 const config = require("@myflexspace/config");
 
 /* ====  Middleware  ==== */
+app.use(cors())
 // body data middleware
 app.use(express.urlencoded({ extended: true }));
 // method override middleware
@@ -34,7 +39,7 @@ app.use((req, res, next) => {
 
 // Internal Routes
 // All of our routes will start with "/api", we're going to route them through index.js
-// app.use("/api", routes);
+app.use("/api", routes);
 
 //This is to catch anything that's trying to hit an api route that isn't made
 app.all("/api/*", function (req, res, next) {

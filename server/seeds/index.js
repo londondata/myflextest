@@ -1,6 +1,5 @@
 require("dotenv").config()
 //need dotenv here since we aren't accessing our server.js at all! 
-
 //we bring in our db connection via models/index.js where it is currently set up
 const db = require("../models")
 const fs = require('fs')
@@ -33,9 +32,7 @@ const deleteUsers = async () => {
     }
 }
 
-// seedUsers()
-deleteUsers()
-
+seedUsers()
 
 module.exports = {
     usersJSON: require("./users.json")
