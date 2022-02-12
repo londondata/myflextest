@@ -1,7 +1,7 @@
 // Post component
 import React from "react";
 import Dopeness from "../Dopeness";
-// import { string } from "prop-types";
+import { string } from "prop-types";
 
 function Post(props) {
 	return (
@@ -20,14 +20,14 @@ function Post(props) {
 	);
 }
 
-// Post.propTypes = {
-// 	title: string.isRequired,
-// 	author: string.isRequired,
-// 	body: string.isRequired,
-// };
+Post.propTypes = {
+	title: string.isRequired,
+	author: string.isRequired,
+	body: string.isRequired,
+};
 
-// Post.defaultProps = {
-// 	author: "Teri London",
-// };
+Post.defaultProps = {
+	author: "Teri London",
+};
 
 export default Post;

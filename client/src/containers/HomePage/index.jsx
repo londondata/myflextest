@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import Post from "../../components/Post";
 import PostForm from "../../components/PostForm";
 import Welcome from "../../components/Welcome";
@@ -7,13 +7,23 @@ import NavBar from "../../components/NavBar";
 import { Routes, Route } from "react-router-dom";
 import * as postService from "../../api/post.service";
 
-const post = {
-	title: "Eff Off Zuck",
-	author: "Miss London",
-	body: "I secretly recruited a group of superheroes to save the Internet",
-};
+const HomePage = () => {
+	const [posts, setPosts] = useState([]);
 
-const Home = (props) => {
+	const fetchPosts = async () => {
+		await postService.getAll().then((res) => {
+			setPosts(res.data.data.reverse());
+		});
+
+		// if (!res === 200) {
+		// 	alert(`Server Error Status Code: ${res.status}`);
+		// }
+	};
+
+	useEffect(() => {
+		fetchPosts();
+	}, []);
+
 	return (
 		<div>
 			<NavBar />
@@ -24,19 +34,18 @@ const Home = (props) => {
 					element={
 						<>
 							<Welcome />
-							<PostForm />
+							<PostForm getPostsAgain={() => fetchPosts()} />
+							{posts.map((post) => {
+								return (
+									<Post
+										title={post.title}
+										author={post.author}
+										body={post.body}
+										key={post._id}
+									/>
+								);
+							})}
 						</>
-					}
-				></Route>
-				<Route
-					path="/posts"
-					element={
-						<Post
-							title={post.title}
-							author={post.author}
-							body={post.body}
-							comments={post.comments}
-						/>
 					}
 				></Route>
 			</Routes>
@@ -44,7 +53,7 @@ const Home = (props) => {
 	);
 };
 
-export default Home;
+export default HomePage;
 
 /* Router Notes:
 - Routes renders the first child (Route or Redirect) that matches the location requested. It also renders routes exclusively and not all at once.

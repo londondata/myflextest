@@ -1,5 +1,5 @@
 import { useState } from "react";
-// import { func } from "prop-types";
+import { func } from "prop-types";
 import * as postService from "../../api/post.service";
 
 const PostForm = () => {
@@ -9,19 +9,18 @@ const PostForm = () => {
 
 	const handleSubmit = async () => {
 		let newPost = { title, body };
-		let res = await postService.create(newPost);
-		// let res = await postService.getAll();
+		let res = await postService.create(newPost).then(() => {
+			setTitle("");
+			// setAuthor("");
+			setBody("");
+			console.log(newPost);
+		});
 
 		console.log(res);
-		// console.log(newPost);
+		console.log(newPost);
 
-		if (!res.ok) {
+		if (!res === 201) {
 			alert(`Server Error Status Code: ${res.status}`);
-		} else {
-			// setTitle("");
-			// // setAuthor("");
-			// setBody("");
-			console.log(newPost);
 		}
 	};
 
@@ -64,8 +63,8 @@ const PostForm = () => {
 	);
 };
 
-// PostForm.propTypes = {
-// 	getPostsAgain: func,
-// };
+PostForm.propTypes = {
+	getPostsAgain: func,
+};
 
 export default PostForm;
