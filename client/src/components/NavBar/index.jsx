@@ -1,19 +1,20 @@
-import {NavLink, Link} from 'react-router-dom'
+import { NavLink, Link } from "react-router-dom";
 
 export default function NavBar() {
-    return(
-        // <></> are placeholders!
-        <>
-        
-            <div>
-                <Link 
-                    // you can style inline, but doesn't assign an 'isActive' class :( )
-                    // style={({ isActive }) => ({ color: isActive ? 'green' : 'blue' })}
-                    to="/">Home</Link>
-                <Link to="/homies">Homies</Link>
-                <Link to="/posts">Posts</Link>
-                {/* NavLink is helpful when differentiating between nav links and regular links. It also automatically assigns an "isActive" class where it makes it easier to style! */}
-                 {/* <NavLink 
+	return (
+		// <></> are placeholders!
+		<>
+			<div>
+				<Link
+					// you can style inline, but doesn't assign an 'isActive' class :( )
+					// style={({ isActive }) => ({ color: isActive ? 'green' : 'blue' })}
+					to="/"
+				>
+					Home
+				</Link>
+				<Link to="/homies">Homies</Link>
+				{/* NavLink is helpful when differentiating between nav links and regular links. It also automatically assigns an "isActive" class where it makes it easier to style! */}
+				{/* <NavLink 
                     style={{
                         padding: "10px"
                     }}
@@ -27,7 +28,7 @@ export default function NavBar() {
                         padding: "10px"
                     }}
                     to="/:id">User</NavLink>  */}
-            </div>
-        </>
-    )
+			</div>
+		</>
+	);
 }

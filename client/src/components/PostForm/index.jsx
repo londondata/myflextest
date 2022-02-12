@@ -24,27 +24,38 @@ const PostForm = ({ getPostsAgain }) => {
 
 	return (
 		<div>
-			<input
-				onChange={(e) => setTitle(e.target.value)}
-				value={title}
-				type="text"
-				name="title"
-				placeholder="input title value target homie"
-			/>
-			<input
-				onChange={(e) => setAuthor(e.target.value)}
-				value={author}
-				type="text"
-				name="author"
-				placeholder="you, homie"
-			/>
-			<input
-				onChange={(e) => setBody(e.target.value)}
-				value={body}
-				type="text"
-				name="body"
-				placeholder="input body value target, homie"
-			/>
+			<form>
+				<label>
+					Post Title:
+					<input
+						onChange={(e) => setTitle(e.target.value)}
+						value={title}
+						type="text"
+						name="title"
+						placeholder="input title value target homie"
+					/>
+				</label>
+				<label>
+					Author:
+					<input
+						onChange={(e) => setAuthor(e.target.value)}
+						value={author}
+						type="text"
+						name="author"
+						placeholder="you, homie"
+					/>
+				</label>
+				<label>
+					What's on your mind, homie?
+					<input
+						onChange={(e) => setBody(e.target.value)}
+						value={body}
+						type="textarea"
+						name="body"
+						placeholder="input body value target, homie"
+					/>
+				</label>
+			</form>
 			<button onClick={handleSubmit}>Add Post +</button>
 		</div>
 	);
