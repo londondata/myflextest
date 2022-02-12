@@ -2,7 +2,7 @@ import { useState } from "react";
 import { func } from "prop-types";
 import * as postService from "../../api/post.service";
 
-const PostForm = () => {
+const PostForm = ({ getPostsAgain }) => {
 	const [title, setTitle] = useState("");
 	// const [author, setAuthor] = useState("");
 	const [body, setBody] = useState("");
@@ -13,6 +13,7 @@ const PostForm = () => {
 			setTitle("");
 			// setAuthor("");
 			setBody("");
+			getPostsAgain();
 			console.log(newPost);
 		});
 
