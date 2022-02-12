@@ -1,9 +1,10 @@
 // require("dotenv").config();
-const path = require('path')
-console.log(require("dotenv").config({ path: '../.env' })
-//this thing is absolute bullshit it literally works inside of seeds/index.js without pathing, AND on the students myflexspace. what??? this is literally just flextape until i have time to figure this out?
-)
-const cors = require("cors")
+const path = require("path");
+console.log(
+	require("dotenv").config({ path: "../.env" })
+	//this thing is absolute bullshit it literally works inside of seeds/index.js without pathing, AND on the students myflexspace. what??? this is literally just flextape until i have time to figure this out?
+);
+const cors = require("cors");
 /* ==== External Modules ==== */
 const express = require("express");
 const methodOverride = require("method-override");
@@ -11,14 +12,13 @@ const methodOverride = require("method-override");
 /* ==== Internal Modules ==== */
 const routes = require("./routes");
 
-
 /* ==== Instanced Modules  ==== */
 const app = express();
 /* ==== Configuration ==== */
 const config = require("@myflexspace/config");
 
 /* ====  Middleware  ==== */
-app.use(cors())
+app.use(cors());
 // body data middleware
 app.use(express.urlencoded({ extended: true }));
 // method override middleware
@@ -28,6 +28,8 @@ app.use(methodOverride("_method"));
 // to serve static files and to serve the react build
 app.use(express.static(path.join("build")));
 app.use(express.static("public"));
+// JSON parsing middleware
+app.use(express.json());
 
 // logger
 app.use((req, res, next) => {
@@ -55,8 +57,8 @@ and this middleware's job is to handover control to react
 
 //For deployments
 app.use((req, res, next) => {
-  console.log(req.headers);
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+	console.log(req.headers);
+	res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 /* ====  Server Listener  ==== */
