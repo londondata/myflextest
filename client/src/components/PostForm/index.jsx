@@ -1,24 +1,27 @@
 import { useState } from "react";
-import { func } from "prop-types";
+// import { func } from "prop-types";
 import * as postService from "../../api/post.service";
 
-const PostForm = ({ getPostsAgain }) => {
+const PostForm = () => {
 	const [title, setTitle] = useState("");
-	const [author, setAuthor] = useState("");
+	// const [author, setAuthor] = useState("");
 	const [body, setBody] = useState("");
 
 	const handleSubmit = async () => {
-		let newPost = { title, author, body };
-		const res = await postService.create(newPost);
+		let newPost = { title, body };
+		let res = await postService.create(newPost);
+		// let res = await postService.getAll();
 
-		// res 201: created
-		if (res.status === 201) {
-			setTitle("");
-			setAuthor("");
-			setBody("");
-			getPostsAgain();
+		console.log(res);
+		// console.log(newPost);
+
+		if (!res.ok) {
+			alert(`Server Error Status Code: ${res.status}`);
 		} else {
-			alert("Server Error");
+			// setTitle("");
+			// // setAuthor("");
+			// setBody("");
+			console.log(newPost);
 		}
 	};
 
@@ -35,7 +38,7 @@ const PostForm = ({ getPostsAgain }) => {
 						placeholder="input title value target homie"
 					/>
 				</label>
-				<label>
+				{/* <label>
 					Author:
 					<input
 						onChange={(e) => setAuthor(e.target.value)}
@@ -44,13 +47,13 @@ const PostForm = ({ getPostsAgain }) => {
 						name="author"
 						placeholder="you, homie"
 					/>
-				</label>
+				</label> */}
 				<label>
 					What's on your mind, homie?
-					<input
+					<textarea
 						onChange={(e) => setBody(e.target.value)}
 						value={body}
-						type="textarea"
+						type="text"
 						name="body"
 						placeholder="input body value target, homie"
 					/>
@@ -61,8 +64,8 @@ const PostForm = ({ getPostsAgain }) => {
 	);
 };
 
-PostForm.propTypes = {
-	getPostsAgain: func,
-};
+// PostForm.propTypes = {
+// 	getPostsAgain: func,
+// };
 
 export default PostForm;
