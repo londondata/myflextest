@@ -35,7 +35,7 @@
         "email": "edwardpark.park@gmail.com"
     },
     {
-        "firstName": "WWilliam",
+        "firstName": "William",
         "lastName": "Rainford",
         "email": "wrsrainford@gmail.com"
     },
@@ -63,5 +63,36 @@
         "firstName": "Nat",
         "lastName": "Zeng",
         "email": "fthbby@gmail.com"
+    },
+    {
+        "firstName": "Teri",
+        "lastName": "London",
+        "email": "teri.london@gmail.com"
+    },
+    {
+        "firstName": "Avisa",
+        "lastName": "Poshtkouhi",
+        "email": "aap571420@gmail.com"
+    },
+    {
+        "firstName": "Nicole",
+        "lastName": "Hamilton",
+        "email": "nikkihmltn1@yahoo.com"
+    },
+    {
+        "firstName": "Ken",
+        "lastName": "Li",
+        "email": "'liken2172@gmail.com"
+    },
+    {
+        "firstName": "Sarah",
+        "lastName": "Kim",
+        "email": "skim29121@gmail.com"
+    },
+    {
+        "firstName": "Matthew",
+        "lastName": "Bell",
+        "email": "xdjx3runx@gmail.com"
     }
+
 ]

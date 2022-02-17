@@ -14,6 +14,7 @@ module.exports = async (req, res, next) => {
     // if there is a token
     const token = bearerHeader.split(" ")[1];
     const payload = await jwt.verify(token, "hailsatan");
+    console.log(payload)
     req.userId = payload._id;
 
     next();
