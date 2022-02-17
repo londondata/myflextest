@@ -32,9 +32,7 @@ const deleteUsers = async () => {
     }
 }
 
-// seedUsers()
-// deleteUsers()
-
+seedUsers()
 
 module.exports = {
     usersJSON: require("./users.json")
