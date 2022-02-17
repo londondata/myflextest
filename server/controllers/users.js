@@ -1,17 +1,31 @@
-// User Controller
-const db = require("../models");
+const db = require("../models")
 
-// Index - GET - Presentational (all of a resource)
 const index = (req, res) => {
     db.User.find()
-        .exec((err, usersAll) => {
-            return res.status(200).json({
-                message: "Success",
-                data: usersAll,
-            });
-        });
-};
+    .exec((err, allUsers) => {
+        return res.status(200).json({
+            message: "Success!",
+            data: allUsers
+        })
+    })
+}
+
+const show = async (req, res) => {
+    try {
+      const foundUser = await db.User.findById(req.userId);
+      return res.status(200).json({
+        message: "Huzzuh!",
+        data: foundUser,
+      });
+    } catch (err) {
+      console.log(err);
+      return res
+        .status(500)
+        .json({message: "Internal Server Error whoopsies :(((" });
+    }
+  };
 
 module.exports = {
     index,
+    show
 }
