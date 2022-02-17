@@ -4,13 +4,14 @@ require("dotenv").config({ path: "../.env" });
 const express = require("express");
 //DONT FORGET TO INSTALL METHOD-OVERRIDE INSIDE OF SERVER/
 const cors = require("cors");
-/* ==== Internal Modules ==== */
 
 /* ==== Instanced Modules  ==== */
 const app = express();
 const routes = require("./routes");
+
 /* ==== Configuration ==== */
 const config = require("@myflexspace/config");
+
 
 /* ==== Middleware ==== */
 app.use(cors());
@@ -20,6 +21,12 @@ app.use(express.urlencoded({ extended: true }));
 // JSON parsing middleware
 // you need this for full stack crud front and back end! u gotta parse that json! do not forget this!!
 app.use(express.json());
+
+// logger
+app.use((req, res, next) => {
+	console.log(req.url, req.method);
+	next();
+});
 
 /* ====  Routes & Controllers  ==== */
 app.use("/api", routes);
@@ -40,6 +47,6 @@ app.use((req, res, next) => {
 
 /* ====  Server Listener  ==== */
 app.listen(config.PORT, () => {
-	console.log(`myflexspace is live at http://localhost${config.PORT}`);
+	console.log(`myflexspace is live at http://localhost:${config.PORT}. how incredibly dope!`);
 });
 
