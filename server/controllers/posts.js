@@ -4,10 +4,10 @@ const db = require("../models");
 // Index - GET - Presentational (all of a resource)
 const index = (req, res) => {
     db.Post.find()
-        .exec((err, populatedPosts) => {
+        .exec((err, allPosts) => {
             return res.status(200).json({
                 message: "Success",
-                data: populatedPosts,
+                data: allPosts,
             });
         });
 };
