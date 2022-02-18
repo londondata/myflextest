@@ -2,6 +2,7 @@ import tellMyFlexSpaceTo from "./axios.config.js";
 
 const authUrl = "/auth";
 
+// when you create a password for the first time based on the email in the database
 const register = (email, password) => {
 	return tellMyFlexSpaceTo.post(`${authUrl}/register`, {
 		email,
@@ -13,18 +14,20 @@ const login = (email, password) => {
 	return tellMyFlexSpaceTo
 		.post(`${authUrl}/login`, { email, password })
 		.then((res) => {
-			if (res.data.accessToken) {
-				localStorage.setItem("user", JSON.stringify(res.data));
+			if (res.data.token) {
+				localStorage.setItem("user", JSON.stringify(res.data.token));
 			}
-			return res.data;
+			return res.data.token;
 		});
 };
+
+const currentUser = () => {
+	let user = localStorage.getItem("user");
+	return JSON.parse(user);
+};
+
 const logout = () => {
 	localStorage.removeItem("user");
 };
-const getCurrentUser = () => {
-	let currentUser = localStorage.getItem("user");
-	return JSON.parse(currentUser);
-};
 
-export { register, login, logout, getCurrentUser };
+export { register, login, currentUser, logout };

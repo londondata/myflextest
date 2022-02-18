@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import Post from "../../components/Post";
 import PostForm from "../../components/PostForm";
 import Welcome from "../../components/Welcome";
@@ -6,18 +6,34 @@ import Homies from "../HomiesPage";
 import NavBar from "../../components/NavBar";
 import { Routes, Route } from "react-router-dom";
 import * as postService from "../../api/post.service";
+import * as authService from "../../api/auth.service";
+
+const reducer = (prevState, action) => {
+	switch (action.type) {
+		case "setPosts":
+			return { ...prevState, setPosts: action.payload };
+		case "isLoggedIn":
+			return { ...prevState, isLoggedIn: !prevState.isLoggedIn };
+		default:
+			return prevState;
+	}
+};
+
+const initialState = {
+	posts: [],
+	isLoggedIn: false,
+};
 
 const HomePage = () => {
-	const [posts, setPosts] = useState([]);
+	// const [posts, setPosts] = useState([]);
+
+	const [state, dispatch] = useReducer(reducer, initialState);
+	const { posts, isLoggedIn } = state;
 
 	const fetchPosts = async () => {
 		await postService.getAll().then((res) => {
-			setPosts(res.data.data.reverse());
+			dispatch({ type: "setPosts", payload: res.data.data.reverse() });
 		});
-
-		// if (!res === 200) {
-		// 	alert(`Server Error Status Code: ${res.status}`);
-		// }
 	};
 
 	useEffect(() => {
