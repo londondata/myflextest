@@ -11,7 +11,7 @@ import * as authService from "../../api/auth.service";
 const reducer = (prevState, action) => {
 	switch (action.type) {
 		case "setPosts":
-			return { ...prevState, setPosts: action.payload };
+			return { ...prevState, posts: action.payload };
 		case "isLoggedIn":
 			return { ...prevState, isLoggedIn: !prevState.isLoggedIn };
 		default:
