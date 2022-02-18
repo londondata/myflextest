@@ -12,8 +12,8 @@ const reducer = (prevState, action) => {
 	switch (action.type) {
 		case "setPosts":
 			return { ...prevState, posts: action.payload };
-		case "isLoggedIn":
-			return { ...prevState, isLoggedIn: !prevState.isLoggedIn };
+		case "setIsLoggedIn":
+			return { ...prevState, isLoggedIn: action.payload };
 		default:
 			return prevState;
 	}
@@ -36,37 +36,53 @@ const HomePage = () => {
 		});
 	};
 
-	useEffect(() => {
-		fetchPosts();
-	}, []);
+	const userActive = () => {
+		if (localStorage.getItem("user")) {
+			dispatch({ type: "setIsLoggedIn", payload: true });
+		} else {
+			dispatch({ type: "setIsLoggedIn", payload: false });
+		}
+	};
 
-	return (
-		<div>
-			<NavBar />
-			<Routes>
-				<Route path="homies" element={<Homies />}></Route>
-				<Route
-					path="/"
-					element={
-						<>
-							<Welcome />
-							<PostForm getPostsAgain={() => fetchPosts()} />
-							{posts.map((post) => {
-								return (
-									<Post
-										title={post.title}
-										author={post.author}
-										body={post.body}
-										key={post._id}
-									/>
-								);
-							})}
-						</>
-					}
-				></Route>
-			</Routes>
-		</div>
-	);
+	useEffect(() => {
+		userActive();
+	});
+	// runs on every render for security
+	const fetchPostsEffect = () => {
+		useEffect(() => {
+			fetchPosts();
+		}, []);
+	};
+	if (userActive) {
+		fetchPostsEffect();
+		return (
+			<div>
+				<NavBar />
+				<Routes>
+					<Route path="homies" element={<Homies />}></Route>
+					<Route
+						path="/"
+						element={
+							<>
+								<Welcome />
+								<PostForm getPostsAgain={() => fetchPosts()} />
+								{posts.map((post) => {
+									return (
+										<Post
+											title={post.title}
+											author={post.author}
+											body={post.body}
+											key={post._id}
+										/>
+									);
+								})}
+							</>
+						}
+					></Route>
+				</Routes>
+			</div>
+		);
+	}
 };
 
 export default HomePage;
