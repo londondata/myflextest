@@ -11,9 +11,9 @@ import * as authService from "../../api/auth.service";
 const reducer = (prevState, action) => {
 	switch (action.type) {
 		case "setPosts":
-			return { ...prevState, posts: action.payload };
-		case "setIsLoggedIn":
-			return { ...prevState, isLoggedIn: action.payload };
+			return { ...prevState, setPosts: action.payload };
+		case "isLoggedIn":
+			return { ...prevState, isLoggedIn: !prevState.isLoggedIn };
 		default:
 			return prevState;
 	}
@@ -36,53 +36,37 @@ const HomePage = () => {
 		});
 	};
 
-	const userActive = () => {
-		if (localStorage.getItem("user")) {
-			dispatch({ type: "setIsLoggedIn", payload: true });
-		} else {
-			dispatch({ type: "setIsLoggedIn", payload: false });
-		}
-	};
-
 	useEffect(() => {
-		userActive();
-	});
-	// runs on every render for security
-	const fetchPostsEffect = () => {
-		useEffect(() => {
-			fetchPosts();
-		}, []);
-	};
-	if (userActive) {
-		fetchPostsEffect();
-		return (
-			<div>
-				<NavBar />
-				<Routes>
-					<Route path="homies" element={<Homies />}></Route>
-					<Route
-						path="/"
-						element={
-							<>
-								<Welcome />
-								<PostForm getPostsAgain={() => fetchPosts()} />
-								{posts.map((post) => {
-									return (
-										<Post
-											title={post.title}
-											author={post.author}
-											body={post.body}
-											key={post._id}
-										/>
-									);
-								})}
-							</>
-						}
-					></Route>
-				</Routes>
-			</div>
-		);
-	}
+		fetchPosts();
+	}, []);
+
+	return (
+		<div>
+			<NavBar />
+			<Routes>
+				<Route path="homies" element={<Homies />}></Route>
+				<Route
+					path="/"
+					element={
+						<>
+							<Welcome />
+							<PostForm getPostsAgain={() => fetchPosts()} />
+							{posts.map((post) => {
+								return (
+									<Post
+										title={post.title}
+										author={post.author}
+										body={post.body}
+										key={post._id}
+									/>
+								);
+							})}
+						</>
+					}
+				></Route>
+			</Routes>
+		</div>
+	);
 };
 
 export default HomePage;

@@ -37,19 +37,22 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
+  
   try {
       //select(+password) to include the password in our search to we can login user
-    const foundUser = await db.User.findOne({ email: req.body.email }).select(
+    const foundUser = await db.User.findOne({ email: req.body.email.email }).select(
       "+password"
-    );
+    )
 
     if (!foundUser) {
       return res
         .status(400)
         .json({ status: 400, message: "Username or password is wrong, Homie :((" });
     }
-
-    const isMatch = await bcrypt.compare(req.body.password, foundUser.password);
+    console.log(foundUser)
+    console.log(req.body.email.password)
+    const isMatch = await bcrypt.compare(req.body.email.password, foundUser.password)
+    console.log(isMatch)
     // check if the passwords match
     if (isMatch) {
       // jwt.sign(payload, secret key for signing, config object)

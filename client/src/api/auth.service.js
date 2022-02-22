@@ -11,9 +11,11 @@ const register = (email, password) => {
 };
 
 const login = (email, password) => {
+	console.log("in login")
 	return tellMyFlexSpaceTo
 		.post(`${authUrl}/login`, { email, password })
 		.then((res) => {
+			console.log(res)
 			if (res.data.token) {
 				localStorage.setItem("user", JSON.stringify(res.data.token));
 			}
