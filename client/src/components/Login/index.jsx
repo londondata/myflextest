@@ -1,25 +1,26 @@
 import {useState} from 'react'
 import * as authService from "../../api/auth.service";
+import {useNavigate} from 'react-router-dom'
 
 
 export default function Login() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const navigate = useNavigate()
 
     const handleSubmit = async () => {
-        console.log("in handle submit")
-        let loginUser = { email, password };
-        console.log(loginUser)
-        let res = await authService.login(loginUser)
+        let res = await authService.login(email, password)
             .then(() => {
                 setEmail("");
                 setPassword("");
+                
             })
             .catch((err) =>  console.log(err))
 
 		if (!res === 201) {
 			alert(`Server Error Status Code: ${res.status}`);
 		}
+        navigate("/")
     }
 
     return (

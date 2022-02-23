@@ -11,8 +11,8 @@ const register = (email, password) => {
 };
 
 const login = (email, password) => {
-	console.log("in login")
-	return tellMyFlexSpaceTo
+	 try{
+		tellMyFlexSpaceTo
 		.post(`${authUrl}/login`, { email, password })
 		.then((res) => {
 			console.log(res)
@@ -21,6 +21,9 @@ const login = (email, password) => {
 			}
 			return res.data.token;
 		});
+	} catch (err) {
+		console.log(err)
+	}
 };
 
 const currentUser = () => {

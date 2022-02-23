@@ -4,6 +4,7 @@ import PostForm from "../../components/PostForm";
 import Welcome from "../../components/Welcome";
 import Homies from "../HomiesPage";
 import NavBar from "../../components/NavBar";
+import Login from "../../components/Login"
 import { Routes, Route } from "react-router-dom";
 import * as postService from "../../api/post.service";
 import * as authService from "../../api/auth.service";
@@ -24,6 +25,8 @@ const initialState = {
 	isLoggedIn: false,
 };
 
+
+
 const HomePage = () => {
 	// const [posts, setPosts] = useState([]);
 
@@ -36,37 +39,53 @@ const HomePage = () => {
 		});
 	};
 
+	const userActive = () => {
+		console.log('in useractive')
+		if (localStorage.getItem("user")) {
+			dispatch({ type: "setIsLoggedIn", payload: true });
+		} else {
+			dispatch({ type: "setIsLoggedIn", payload: false });
+		}
+	};
+
 	useEffect(() => {
 		fetchPosts();
+		userActive();
 	}, []);
 
-	return (
-		<div>
-			<NavBar />
-			<Routes>
-				<Route path="homies" element={<Homies />}></Route>
-				<Route
-					path="/"
-					element={
-						<>
-							<Welcome />
-							<PostForm getPostsAgain={() => fetchPosts()} />
-							{posts.map((post) => {
-								return (
-									<Post
-										title={post.title}
-										author={post.author}
-										body={post.body}
-										key={post._id}
-									/>
-								);
-							})}
-						</>
-					}
-				></Route>
-			</Routes>
-		</div>
-	);
+	if (isLoggedIn){
+		return (
+			<div>
+				<NavBar />
+				<Routes>
+					<Route path="homies" element={<Homies />}></Route>
+					<Route
+						path="/"
+						element={
+							<>
+								<Welcome />
+								<PostForm getPostsAgain={() => fetchPosts()} />
+								{posts.map((post) => {
+									return (
+										<Post
+											title={post.title}
+											author={post.author}
+											body={post.body}
+											key={post._id}
+										/>
+									);
+								})}
+							</>
+						}
+					></Route>
+				</Routes>
+			</div>
+		);
+	} else {
+		return(
+			<Login />
+		)
+	}
 };
 
 export default HomePage;
