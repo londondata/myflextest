@@ -23,9 +23,8 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        let res = await authService.login(email, password)
+        let res = await authService.register(email, password)
         .then(()=> {
-            console.log("in then where dispatch is")
             dispatch({ type: "setEmail", payload: " " })
             dispatch({ type: "setPassword", payload: " " })
         })
@@ -50,13 +49,13 @@ export default function Login() {
 					/>
                 </label>
                 <label for="password">
-                    Password: 
+                    Register Your Password: 
                     <input
 						onChange={(e) => dispatch({ type: "setPassword", payload: e.target.value })}
 						value={password}
 						type="text"
 						name="password"
-						placeholder="Enter your password"
+						placeholder="Register your password here!"
 					/>
                 </label>
                 <button onClick={handleSubmit}>Login</button>

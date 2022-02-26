@@ -4,17 +4,17 @@ import PostForm from "../../components/PostForm";
 import Welcome from "../../components/Welcome";
 import Homies from "../HomiesPage";
 import NavBar from "../../components/NavBar";
-import Login from "../../components/Login"
+import Login from "../../components/Login";
+import Register from "../../components/Register";
 import { Routes, Route } from "react-router-dom";
 import * as postService from "../../api/post.service";
-import * as authService from "../../api/auth.service";
 
 const reducer = (prevState, action) => {
 	switch (action.type) {
 		case "setPosts":
 			return { ...prevState, setPosts: action.payload };
 		case "isLoggedIn":
-			return { ...prevState, isLoggedIn: !prevState.isLoggedIn };
+			return { ...prevState, isLoggedIn: action.payload };
 		default:
 			return prevState;
 	}
@@ -26,9 +26,7 @@ const initialState = {
 };
 
 
-
 const HomePage = () => {
-	// const [posts, setPosts] = useState([]);
 
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const { posts, isLoggedIn } = state;
@@ -40,11 +38,10 @@ const HomePage = () => {
 	};
 
 	const userActive = () => {
-		console.log('in useractive')
 		if (localStorage.getItem("user")) {
-			dispatch({ type: "setIsLoggedIn", payload: true });
+			dispatch({ type: "isLoggedIn", payload: true });
 		} else {
-			dispatch({ type: "setIsLoggedIn", payload: false });
+			dispatch({ type: "isLoggedIn", payload: false });
 		}
 	};
 
@@ -83,7 +80,17 @@ const HomePage = () => {
 		);
 	} else {
 		return(
-			<Login />
+			<div>
+				<div>
+					Login: 
+					<Login />
+				</div>
+				<p>OR</p>
+				<div>
+					Register:
+					<Register />
+				</div>
+			</div>
 		)
 	}
 };
