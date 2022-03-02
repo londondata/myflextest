@@ -14,7 +14,7 @@ const tellMyFlexSpaceTo = axios.create({
 	baseURL: `${backendAPI}`,
 	headers: {
 		"Content-type": "application/json",
-		authorization: `${user}`,
+		authorization: `Bearer ${user}`,
 	},
 });
 

@@ -13,7 +13,7 @@ module.exports = async (req, res, next) => {
     }
 
     // if there is a token
-    const token = bearerHeader.split(".")[1];
+    const token = bearerHeader.split(" ")[1];
     console.log(token)
     const payload = await jwt.verify(token, "hailsatan");
     console.log(payload)
