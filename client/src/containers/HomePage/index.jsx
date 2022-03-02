@@ -6,6 +6,7 @@ import Homies from "../HomiesPage";
 import NavBar from "../../components/NavBar";
 import Login from "../../components/Login";
 import Register from "../../components/Register";
+import Profile from "../ProfilePage"
 import { Routes, Route } from "react-router-dom";
 import * as postService from "../../api/post.service";
 
@@ -75,6 +76,7 @@ const HomePage = () => {
 							</>
 						}
 					></Route>
+					<Route path="/profile" element={<Profile />}></Route>
 				</Routes>
 			</div>
 		);
