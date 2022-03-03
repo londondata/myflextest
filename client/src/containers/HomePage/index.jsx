@@ -1,15 +1,15 @@
-import { useState, useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import Post from "../../components/Post";
 import PostForm from "../../components/PostForm";
 import Welcome from "../../components/Welcome";
 import Homies from "../HomiesPage";
 import NavBar from "../../components/NavBar";
-import Login from "../../components/Login";
-import Register from "../../components/Register";
-import Profile from "../ProfilePage"
+import Profile from "../ProfilePage";
 import { Routes, Route } from "react-router-dom";
 import * as postService from "../../api/post.service";
 import * as authService from "../../api/auth.service";
+
+// refactor posts from useState to useReducer so we can also manage global state of isLoggedIn
 
 const reducer = (prevState, action) => {
 	switch (action.type) {
@@ -27,9 +27,7 @@ const initialState = {
 	isLoggedIn: false,
 };
 
-
 const HomePage = () => {
-
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const { posts, isLoggedIn } = state;
 
@@ -39,6 +37,7 @@ const HomePage = () => {
 		});
 	};
 
+	// bring in currentUser from where we wrote the logic in the authService and use it to determine whether or not the user is logged in
 	const userActive = () => {
 		if (authService.currentUser()) {
 			dispatch({ type: "isLoggedIn", payload: true });
@@ -47,22 +46,25 @@ const HomePage = () => {
 		}
 	};
 
+	// add userActive to useEffect so we are always checking to see if our user is logged in
+
 	useEffect(() => {
 		fetchPosts();
 		userActive();
 	}, []);
 
-	if (isLoggedIn){
+	// wrap the entire navBar and routing in an if statement, ifLoggedIn is available, else show login and register
+
+	if (isLoggedIn) {
 		return (
 			<div>
-				<NavBar checkUserActive={() => userActive()}/>
+				<NavBar checkUserActive={() => userActive()} />
 				<Routes>
 					<Route path="homies" element={<Homies />}></Route>
 					<Route
 						path="/"
 						element={
 							<>
-								<Welcome />
 								<PostForm getPostsAgain={() => fetchPosts()} />
 								{posts.map((post) => {
 									return (
@@ -77,24 +79,19 @@ const HomePage = () => {
 							</>
 						}
 					></Route>
-					<Route path="/profile" element={<Profile checkUserActive={()=> userActive()}/>}></Route>
+					<Route
+						path="/profile"
+						element={<Profile checkUserActive={() => userActive()} />}
+					></Route>
 				</Routes>
 			</div>
 		);
 	} else {
-		return(
+		return (
 			<div>
-				<div>
-					Login: 
-					<Login checkUserActive={() => userActive()}/>
-				</div>
-				<p>OR</p>
-				<div>
-					Register:
-					<Register checkUserActive={() => userActive()}/>
-				</div>
+				<Welcome checkUserActive={() => userActive()} />
 			</div>
-		)
+		);
 	}
 };
 
