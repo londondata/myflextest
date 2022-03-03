@@ -6,20 +6,24 @@ export default function Profile() {
 
 	const fetchProfileInfo = async () => {
 		await userService.getProfile().then((res) => {
-            console.log(res.data, "RES DATA")
 			setProfile(res.data.data);
-            console.log(profile)
 		});
 	};
 
 	useEffect(() => {
 		fetchProfileInfo();
 	}, []);
-
-	return (
-		<div>
-			<h1>Profile Page</h1>
-			<h3>Hello {profile.firstName}</h3>
-		</div>
-	);
+	if(profile) {
+		return (
+			<div>
+				<h1>Profile Page</h1>
+				<h3>Hello {profile.firstName}</h3>
+			</div>
+		);
+	} else {
+		return(
+			<h1>Please login to view this page</h1>
+		)
+	}
+	
 }

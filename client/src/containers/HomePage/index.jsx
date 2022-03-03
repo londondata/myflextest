@@ -9,6 +9,7 @@ import Register from "../../components/Register";
 import Profile from "../ProfilePage"
 import { Routes, Route } from "react-router-dom";
 import * as postService from "../../api/post.service";
+import * as authService from "../../api/auth.service";
 
 const reducer = (prevState, action) => {
 	switch (action.type) {
@@ -39,7 +40,7 @@ const HomePage = () => {
 	};
 
 	const userActive = () => {
-		if (localStorage.getItem("user")) {
+		if (authService.currentUser()) {
 			dispatch({ type: "isLoggedIn", payload: true });
 		} else {
 			dispatch({ type: "isLoggedIn", payload: false });
@@ -54,7 +55,7 @@ const HomePage = () => {
 	if (isLoggedIn){
 		return (
 			<div>
-				<NavBar />
+				<NavBar checkUserActive={() => userActive()}/>
 				<Routes>
 					<Route path="homies" element={<Homies />}></Route>
 					<Route
@@ -76,7 +77,7 @@ const HomePage = () => {
 							</>
 						}
 					></Route>
-					<Route path="/profile" element={<Profile />}></Route>
+					<Route path="/profile" element={<Profile checkUserActive={()=> userActive()}/>}></Route>
 				</Routes>
 			</div>
 		);
@@ -85,12 +86,12 @@ const HomePage = () => {
 			<div>
 				<div>
 					Login: 
-					<Login />
+					<Login checkUserActive={() => userActive()}/>
 				</div>
 				<p>OR</p>
 				<div>
 					Register:
-					<Register />
+					<Register checkUserActive={() => userActive()}/>
 				</div>
 			</div>
 		)

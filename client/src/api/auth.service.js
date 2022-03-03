@@ -14,7 +14,7 @@ const register = (email, password) => {
 
 const login = (email, password) => {
 	 try{
-		tellMyFlexSpaceTo
+		return tellMyFlexSpaceTo
 		.post(`${authUrl}/login`, { email, password })
 		.then(res => {
 			console.log(res)

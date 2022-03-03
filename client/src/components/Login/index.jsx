@@ -1,4 +1,4 @@
-import {useReducer} from 'react'
+import {useReducer, useEffect} from 'react'
 import * as authService from "../../api/auth.service";
 
 const reducer = (prevState, action) => {
@@ -17,29 +17,29 @@ const initialState = {
     password: "",
 };
 
-export default function Login() {
+export default function Login({checkUserActive}) {
     const [state, dispatch] = useReducer(reducer, initialState);
 	const { email, password } = state;
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        let res = await authService.login(email, password)
-        .then(()=> {
-            console.log("in then where dispatch is")
-            dispatch({ type: "setEmail", payload: " " })
-            dispatch({ type: "setPassword", payload: " " })
-        })
-            .catch((err) =>  console.log(err))
+        await authService.login(email, password)
+            .then(() =>{
+                checkUserActive()
+            })
 
-		if (!res.status === 200) {
-			alert(`Server Error Status Code: ${res.status}`);
-		}
+        dispatch({ type: "setEmail", payload: " " })
+        dispatch({ type: "setPassword", payload: " " })
     }
+
+   
+
+   
 
     return (
         <div>
             <form>
-                <label for="email">
+                <label htmlFor="email">
                     Email: 
                     <input
 						onChange={(e) => dispatch({ type: "setEmail", payload: e.target.value })}
@@ -49,7 +49,7 @@ export default function Login() {
 						placeholder="Enter your Email"
 					/>
                 </label>
-                <label for="password">
+                <label htmlFor="password">
                     Password: 
                     <input
 						onChange={(e) => dispatch({ type: "setPassword", payload: e.target.value })}
@@ -59,6 +59,7 @@ export default function Login() {
 						placeholder="Enter your password"
 					/>
                 </label>
+               
                 <button onClick={handleSubmit}>Login</button>
             </form>
         </div>

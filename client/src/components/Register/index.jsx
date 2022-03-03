@@ -1,4 +1,4 @@
-import {useReducer} from 'react'
+import {useReducer, useEffect} from 'react'
 import * as authService from "../../api/auth.service";
 
 const reducer = (prevState, action) => {
@@ -7,6 +7,8 @@ const reducer = (prevState, action) => {
 			return { ...prevState, email: action.payload };
         case "setPassword":
             return {...prevState, password: action.payload}
+        case "setSuccess":
+            return {...prevState, successMsg: "Successful Registration! Please Login now."}
 		default:
 			return prevState;
 	}
@@ -15,24 +17,25 @@ const reducer = (prevState, action) => {
 const initialState = {
 	email: "",
     password: "",
+    successMsg: ""
 };
 
-export default function Login() {
+export default function Register({checkUserActive}) {
     const [state, dispatch] = useReducer(reducer, initialState);
-	const { email, password } = state;
+	const { email, password, successMsg } = state;
+
+    useEffect(()=> {
+        checkUserActive()
+    }, [])
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        let res = await authService.register(email, password)
-        .then(()=> {
-            dispatch({ type: "setEmail", payload: " " })
-            dispatch({ type: "setPassword", payload: " " })
-        })
-            .catch((err) =>  console.log(err))
-
-		if (!res.status === 200) {
-			alert(`Server Error Status Code: ${res.status}`);
-		}
+        await authService.register(email, password)
+           
+        dispatch({ type: "setEmail", payload: " " })
+        dispatch({ type: "setPassword", payload: " " }) 
+        dispatch({ type: "setSuccess"}) 
     }
 
     return (
@@ -59,6 +62,7 @@ export default function Login() {
 					/>
                 </label>
                 <button onClick={handleSubmit}>Login</button>
+                <h1 style={{color: "green"}}>{successMsg}</h1>
             </form>
         </div>
     )
