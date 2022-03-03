@@ -12,7 +12,7 @@ const Welcome = ({ checkUserActive }) => {
 			<h1>Welcome to MyFlexSpace, 1026</h1>
 			<div>
 				Login:
-				<Login checkUserActive={{ checkUserActive }} />
+				<Login checkUserActive={checkUserActive} />
 			</div>
 			<p>OR</p>
 			<div>

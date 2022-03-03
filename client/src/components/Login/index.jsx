@@ -17,14 +17,15 @@ const initialState = {
 	password: "",
 };
 
-const Login = ({ checkUserActive }) => {
+const Login = ( {checkUserActive} ) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const { email, password } = state;
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		await authService.login(email, password).then(() => {
-			checkUserActive();
+			console.log("inside then")
+			{checkUserActive()}
 		});
 
 		dispatch({ type: "setEmail", payload: " " });

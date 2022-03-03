@@ -23,13 +23,13 @@ const initialState = {
 	successMsg: "",
 };
 
-const Register = ({ checkUserActive }) => {
+const Register = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const { email, password, successMsg } = state;
 
-	useEffect(() => {
-		checkUserActive();
-	});
+	// useEffect(() => {
+	// 	checkUserActive();
+	// });
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
