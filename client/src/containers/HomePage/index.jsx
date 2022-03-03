@@ -89,7 +89,7 @@ const HomePage = () => {
 	} else {
 		return (
 			<div>
-				<Welcome checkUserActive={() => userActive()} />
+				<Welcome checkUserActive={() => dispatch({type: "isLoggedIn", payload: true})} />
 			</div>
 		);
 	}

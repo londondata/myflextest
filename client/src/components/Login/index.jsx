@@ -1,13 +1,15 @@
 import { useState } from "react";
 import * as authService from "../../api/auth.service";
 
-const Login = () => {
+const Login = ({ checkUserActive }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		await authService.login(email, password).then(() => {
+			console.log("inside then")
+			{checkUserActive()}
 			setEmail = "";
 			setPassword = "";
 		});
