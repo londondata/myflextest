@@ -1,35 +1,18 @@
-import { useReducer } from "react";
+import { useState } from "react";
 import * as authService from "../../api/auth.service";
 
-const reducer = (prevState, action) => {
-	switch (action.type) {
-		case "setEmail":
-			return { ...prevState, email: action.payload };
-		case "setPassword":
-			return { ...prevState, password: action.payload };
-		default:
-			return prevState;
-	}
-};
-
-const initialState = {
-	email: "",
-	password: "",
-};
-
-const Login = ( {checkUserActive} ) => {
-	const [state, dispatch] = useReducer(reducer, initialState);
-	const { email, password } = state;
+const Login = ({ checkUserActive }) => {
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		await authService.login(email, password).then(() => {
 			console.log("inside then")
 			{checkUserActive()}
+			setEmail = "";
+			setPassword = "";
 		});
-
-		dispatch({ type: "setEmail", payload: " " });
-		dispatch({ type: "setPassword", payload: " " });
 	};
 
 	return (
@@ -38,9 +21,7 @@ const Login = ( {checkUserActive} ) => {
 				<label htmlFor="email">
 					Email:
 					<input
-						onChange={(e) =>
-							dispatch({ type: "setEmail", payload: e.target.value })
-						}
+						onChange={(e) => setEmail(e.target.value)}
 						value={email}
 						type="text"
 						name="email"
@@ -50,16 +31,13 @@ const Login = ( {checkUserActive} ) => {
 				<label htmlFor="password">
 					Password:
 					<input
-						onChange={(e) =>
-							dispatch({ type: "setPassword", payload: e.target.value })
-						}
+						onChange={(e) => setPassword(e.target.value)}
 						value={password}
 						type="text"
 						name="password"
 						placeholder="Enter your password"
 					/>
 				</label>
-
 				<button onClick={handleSubmit}>Login</button>
 			</form>
 		</div>

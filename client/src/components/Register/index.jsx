@@ -23,13 +23,14 @@ const initialState = {
 	successMsg: "",
 };
 
+
+
+// register is essentially a reset password function
+// finding the user on the backend and updating the user info
+
 const Register = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const { email, password, successMsg } = state;
-
-	// useEffect(() => {
-	// 	checkUserActive();
-	// });
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
