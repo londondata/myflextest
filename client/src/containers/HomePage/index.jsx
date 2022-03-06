@@ -9,8 +9,8 @@ import * as authService from "../../api/auth.service";
 const reducer = (prevState, action) => {
 	switch (action.type) {
 		case "setPosts":
-			return { ...prevState, setPosts: action.payload };
-		case "isLoggedIn":
+			return { ...prevState, posts: action.payload };
+		case "setIsLoggedIn":
 			return { ...prevState, isLoggedIn: action.payload };
 		default:
 			return prevState;
@@ -35,9 +35,9 @@ const HomePage = () => {
 	// bring in currentUser from where we wrote the logic in the authService and use it to determine whether or not the user is logged in
 	const userActive = () => {
 		if (authService.currentUser()) {
-			dispatch({ type: "isLoggedIn", payload: true });
+			dispatch({ type: "setIsLoggedIn", payload: true });
 		} else {
-			dispatch({ type: "isLoggedIn", payload: false });
+			dispatch({ type: "setIsLoggedIn", payload: false });
 		}
 	};
 
@@ -51,12 +51,15 @@ const HomePage = () => {
 	// wrap the entire navBar in an if statement, ifLoggedIn is available, else show login and register
 
 	if (isLoggedIn) {
+		console.log(posts);
 		return (
 			<div>
 				<NavBar
 					checkUserActive={() => userActive()}
-					fetchAllPosts={() => fetchPosts()}
-					posts={[posts]}
+					fetchAllPosts={() =>
+						dispatch({ type: "setAllPosts", payload: posts })
+					}
+					posts={posts}
 				/>
 			</div>
 		);
@@ -65,7 +68,7 @@ const HomePage = () => {
 			<div>
 				<Welcome
 					checkUserActive={() =>
-						dispatch({ type: "isLoggedIn", payload: true })
+						dispatch({ type: "setIsLoggedIn", payload: true })
 					}
 				/>
 			</div>

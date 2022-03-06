@@ -12,7 +12,7 @@ const NavBar = ({ checkUserActive, fetchAllPosts, posts }) => {
 		checkUserActive();
 		return res;
 	};
-
+	console.log(posts);
 	return (
 		<>
 			<div>
