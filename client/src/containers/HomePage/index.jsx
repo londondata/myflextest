@@ -1,56 +1,79 @@
-import { useState, useEffect } from "react";
-import Post from "../../components/Post";
-import PostForm from "../../components/PostForm";
+import { useEffect, useReducer } from "react";
 import Welcome from "../../components/Welcome";
-import Homies from "../HomiesPage";
 import NavBar from "../../components/NavBar";
-import { Routes, Route } from "react-router-dom";
 import * as postService from "../../api/post.service";
+import * as authService from "../../api/auth.service";
+
+// refactor posts from useState to useReducer so we can also manage global state of isLoggedIn
+
+const reducer = (prevState, action) => {
+	switch (action.type) {
+		case "setPosts":
+			return { ...prevState, posts: action.payload };
+		case "setIsLoggedIn":
+			return { ...prevState, isLoggedIn: action.payload };
+		default:
+			return prevState;
+	}
+};
+
+const initialState = {
+	posts: [],
+	isLoggedIn: false,
+};
 
 const HomePage = () => {
-	const [posts, setPosts] = useState([]);
+	const [state, dispatch] = useReducer(reducer, initialState);
+	const { posts, isLoggedIn } = state;
 
 	const fetchPosts = async () => {
 		await postService.getAll().then((res) => {
-			setPosts(res.data.data.reverse());
+			dispatch({ type: "setPosts", payload: res.data.data.reverse() });
 		});
-
-		// if (!res === 200) {
-		// 	alert(`Server Error Status Code: ${res.status}`);
-		// }
 	};
+
+	// bring in currentUser from where we wrote the logic in the authService and use it to determine whether or not the user is logged in
+	const userActive = () => {
+		if (authService.currentUser()) {
+			dispatch({ type: "setIsLoggedIn", payload: true });
+		} else {
+			dispatch({ type: "setIsLoggedIn", payload: false });
+		}
+	};
+
+	// add userActive to useEffect so we are always checking to see if our user is logged in
 
 	useEffect(() => {
 		fetchPosts();
+		userActive();
 	}, []);
 
-	return (
-		<div>
-			<NavBar />
-			<Routes>
-				<Route path="homies" element={<Homies />}></Route>
-				<Route
-					path="/"
-					element={
-						<>
-							<Welcome />
-							<PostForm getPostsAgain={() => fetchPosts()} />
-							{posts.map((post) => {
-								return (
-									<Post
-										title={post.title}
-										author={post.author}
-										body={post.body}
-										key={post._id}
-									/>
-								);
-							})}
-						</>
+	// wrap the entire navBar in an if statement, ifLoggedIn is available, else show login and register
+
+	if (isLoggedIn) {
+		console.log(posts);
+		return (
+			<div>
+				<NavBar
+					checkUserActive={() => userActive()}
+					fetchAllPosts={() =>
+						dispatch({ type: "setAllPosts", payload: posts })
 					}
-				></Route>
-			</Routes>
-		</div>
-	);
+					posts={posts}
+				/>
+			</div>
+		);
+	} else {
+		return (
+			<div>
+				<Welcome
+					checkUserActive={() =>
+						dispatch({ type: "setIsLoggedIn", payload: true })
+					}
+				/>
+			</div>
+		);
+	}
 };
 
 export default HomePage;

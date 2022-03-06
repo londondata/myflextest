@@ -27,7 +27,6 @@ const show = (req, res) => {
 // Create - POST - Functional (Status code 201)
 const create = (req, res) => {
     db.Post.create(req.body, (err, savedPost) => {
-        console.log(savedPost, "SAVED POST IN CREATE POST");
         if (err) return console.log("Error in Posts#create:", err);
 
         return res.status(201).json({

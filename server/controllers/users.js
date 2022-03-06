@@ -13,6 +13,7 @@ const index = (req, res) => {
 const show = async (req, res) => {
     try {
       const foundUser = await db.User.findById(req.userId);
+      console.log(foundUser)
       return res.status(200).json({
         message: "Huzzuh!",
         data: foundUser,

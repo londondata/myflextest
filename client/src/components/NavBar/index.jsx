@@ -1,34 +1,81 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Route, Routes } from "react-router-dom";
+import Post from "../Post";
+import PostForm from "../PostForm";
+import Homies from "../../containers/HomiesPage";
+import Profile from "../../containers/ProfilePage";
+import * as authService from "../../api/auth.service";
 
-export default function NavBar() {
+const NavBar = ({ checkUserActive, fetchAllPosts, posts }) => {
+	const handleLogout = async () => {
+		console.log("in logout");
+		const res = await authService.logout();
+		checkUserActive();
+		return res;
+	};
+	console.log(posts);
 	return (
-		// <></> are placeholders!
 		<>
 			<div>
-				<Link
-					// you can style inline, but doesn't assign an 'isActive' class :( )
-					// style={({ isActive }) => ({ color: isActive ? 'green' : 'blue' })}
+				<NavLink
+					style={{
+						padding: "10px",
+					}}
 					to="/"
 				>
 					Home
-				</Link>
-				<Link to="/homies">Homies</Link>
-				{/* NavLink is helpful when differentiating between nav links and regular links. It also automatically assigns an "isActive" class where it makes it easier to style! */}
-				{/* <NavLink 
-                    style={{
-                        padding: "10px"
-                    }}
-                    to="/">Home</NavLink>
-                <NavLink 
-                    style={({ isActive }) => 
-                    ({ color: isActive ? 'green' : 'blue' })}
-                    to="/posts">Posts</NavLink>
-                <NavLink 
-                    style={{
-                        padding: "10px"
-                    }}
-                    to="/:id">User</NavLink>  */}
+				</NavLink>
+
+				<NavLink
+					style={{
+						padding: "10px",
+					}}
+					to="/homies"
+				>
+					Homies
+				</NavLink>
+
+				<NavLink
+					style={{
+						padding: "10px",
+					}}
+					to="/profile"
+				>
+					Profile
+				</NavLink>
+
+				<NavLink to="/" onClick={handleLogout}>
+					Logout
+				</NavLink>
 			</div>
+			<Routes>
+				<Route
+					path="/"
+					element={
+						<>
+							<PostForm getPostsAgain={() => fetchAllPosts()} />
+							{posts.map((post) => {
+								return (
+									<Post
+										title={post.title}
+										author={post.author}
+										body={post.body}
+										key={post._id}
+									/>
+								);
+							})}
+						</>
+					}
+				></Route>
+
+				<Route path="homies" element={<Homies />}></Route>
+
+				<Route
+					path="/profile"
+					element={<Profile checkUserActive={{ checkUserActive }} />}
+				></Route>
+			</Routes>
 		</>
 	);
-}
+};
+
+export default NavBar;
