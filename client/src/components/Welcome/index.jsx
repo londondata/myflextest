@@ -1,10 +1,10 @@
 import Login from "../../components/Login";
 import Register from "../../components/Register";
-import { func } from "prop-types";
-// Welcome component
+
+// write formReducer here?
 
 // define our Welcome functional component
-const Welcome = ({ checkUserActive }) => {
+const Welcome = () => {
 	// what should the component return
 	return (
 		// Make sure to return some UI, it's about logging in now
@@ -21,10 +21,6 @@ const Welcome = ({ checkUserActive }) => {
 			</div>
 		</div>
 	);
-};
-
-Welcome.propTypes = {
-	checkUserActive: func,
 };
 
 export default Welcome;
