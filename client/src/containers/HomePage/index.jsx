@@ -1,11 +1,6 @@
 import { useEffect, useReducer } from "react";
-import Post from "../../components/Post";
-import PostForm from "../../components/PostForm";
 import Welcome from "../../components/Welcome";
-import Homies from "../HomiesPage";
 import NavBar from "../../components/NavBar";
-import Profile from "../ProfilePage";
-import { Routes, Route } from "react-router-dom";
 import * as postService from "../../api/post.service";
 import * as authService from "../../api/auth.service";
 
@@ -53,43 +48,26 @@ const HomePage = () => {
 		userActive();
 	}, []);
 
-	// wrap the entire navBar and routing in an if statement, ifLoggedIn is available, else show login and register
+	// wrap the entire navBar in an if statement, ifLoggedIn is available, else show login and register
 
 	if (isLoggedIn) {
 		return (
 			<div>
-				<NavBar checkUserActive={() => userActive()} />
-				<Routes>
-					<Route path="homies" element={<Homies />}></Route>
-					<Route
-						path="/"
-						element={
-							<>
-								<PostForm getPostsAgain={() => fetchPosts()} />
-								{posts.map((post) => {
-									return (
-										<Post
-											title={post.title}
-											author={post.author}
-											body={post.body}
-											key={post._id}
-										/>
-									);
-								})}
-							</>
-						}
-					></Route>
-					<Route
-						path="/profile"
-						element={<Profile checkUserActive={() => userActive()} />}
-					></Route>
-				</Routes>
+				<NavBar
+					checkUserActive={() => userActive()}
+					fetchAllPosts={() => fetchPosts()}
+					posts={[posts]}
+				/>
 			</div>
 		);
 	} else {
 		return (
 			<div>
-				<Welcome checkUserActive={() => dispatch({type: "isLoggedIn", payload: true})} />
+				<Welcome
+					checkUserActive={() =>
+						dispatch({ type: "isLoggedIn", payload: true })
+					}
+				/>
 			</div>
 		);
 	}
